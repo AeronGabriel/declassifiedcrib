@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.3.1",
+    "openai": "^4.20.1",
+    "puppeteer": "^21.5.2"
+  },
+  "name": "v14discordbot",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node src/index.js"
+  },
+  "author": "Silentzzz",
+  "license": "ISC",
+  "description": ""
+}
