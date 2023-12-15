@@ -1,6 +1,25 @@
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions, MessageManager, Embed, Collection } = require(`discord.js`);
 const fs = require('fs');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] }); 
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates] }); 
+
+//Music bot testing
+
+const { DisTube } = require("distube");
+
+const { SpotifyPlugin } = require('@distube/spotify');
+const { SoundCloudPlugin } = require('@distube/soundcloud');
+const { YtDlpPlugin } = require('@distube/yt-dlp');
+
+client.distube = new DisTube(client, {
+    emitNewSongOnly: true,
+    leaveOnFinish: true,// you can change this to your needs
+    emitAddSongWhenCreatingQueue: false,
+    plugins: [new SpotifyPlugin()]
+  });
+  
+  module.exports = client;
+
+  // file handling
 
 client.commands = new Collection();
 
@@ -19,7 +38,6 @@ const commandFolders = fs.readdirSync("./src/commands");
     client.login(process.env.token)
 })();
 
-
 //Bot Status || presence
 
 client.on("ready", () => {
@@ -28,7 +46,7 @@ client.on("ready", () => {
     const activities = [
         "Use /help for commands.",
         "as Declassified Crib bot.",
-        "Integrated with ChatGPT"
+        "Integrated with OpenAI"
     ];
     
     setInterval(() => {
@@ -163,3 +181,4 @@ RPC.on("ready", async () => {
 })
 
 RPC.login({ clientId: USERID }).catch(err => console.error(err));*/
+
