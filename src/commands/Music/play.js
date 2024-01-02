@@ -3,8 +3,8 @@ const client = require("../../index.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("play")
-    .setDescription("Play a song from any source (Youtube, Spotify, and Soundcloud).")
+    .setName("music-play")
+    .setDescription("Play a song.")
     .addStringOption(option =>
       option.setName("query")
         .setDescription("Provide the name or url for the song.")
@@ -15,16 +15,16 @@ module.exports = {
 
     const query = options.getString("query");
     const voiceChannel = member.voice.channel;
-
     const embed = new EmbedBuilder();
+    const option = options.getString('options');
 
     if (!voiceChannel) {
-      embed.setColor("#457cf0").setDescription("You must be in a voice channel to execute music commands.");
+      embed.setColor("Red").setDescription("You must be in a voice channel to execute music commands.");
       return interaction.reply({ embeds: [embed], ephemeral: true });
     }
 
     if (!member.voice.channelId == guild.members.me.voice.channelId) {
-      embed.setColor("#457cf0").setDescription(`You can't use the music player as it is already active in <#${guild.members.me.voice.channelId}>`);
+      embed.setColor("Red").setDescription(`You can't use the music player as it is already active in <#${guild.members.me.voice.channelId}>`);
       return interaction.reply({ embeds: [embed], ephemeral: true });
     }
 

@@ -4,7 +4,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType,
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('ticket')
-    .setDescription('Use this command to open a new Ticket.'),
+    .setDescription('Use this command to create a Ticket tool. ***(Admins only)***'),
     async execute(interaction, client) {
         if(!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: "**/ticket** command use denied! You are not an Administrator of this server!"});
 

@@ -4,7 +4,7 @@ const { PermissionsBitField } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('say')
-    .setDescription('for Announcement Channel, Admins only.')
+    .setDescription('for Announcement Channel, Admins only. ***(Admins only)***')
     .addStringOption(option =>
         option
         .setName('message').setDescription('message to say').setRequired(true)),

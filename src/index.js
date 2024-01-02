@@ -61,7 +61,7 @@ client.on("ready", () => {
 const { OpenAI } = require('openai');
 
 const IGNORE_PREFIX ="!";
-const CHANNELS = ['1179294880321769522', '1181867962815238174'];
+const CHANNELS = ['1179294880321769522'];
 
 const openai = new OpenAI({
     apiKey: process.env.openai_key,
@@ -113,7 +113,7 @@ client.on('messageCreate', async (message) => {
     });
 
     const response = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4-1106-preview',
         messages: conversation,
     })
     .catch((error) => console.error('OpenAI Error:\n', error));
@@ -136,6 +136,48 @@ client.on('messageCreate', async (message) => {
 
     
 })
+
+//Reminder Functionality
+
+const remindSchema = require('./Schemas/remindSchema');
+
+setInterval(async () => {
+
+    const reminders = await remindSchema.find();
+
+    if(!reminders) return;
+    else {
+        reminders.forEach( async reminder => {
+            if(reminder.Time > Date.now()) return;
+
+            // const user = await client.users.fetch(reminder.User);
+
+            // user?.send({
+            //     content: `${user}, you asked me to remind you about: \`${reminder.Remind}\``
+            // }).catch(err => {return;});
+
+            const guild = client.guilds.cache.get('735350360612405340');
+            const channel = guild.channels.cache.get('1186317083395498024');
+            const user = await client.users.fetch(reminder.User); // Fetch the user object
+
+            const embed = new EmbedBuilder()
+                .setDescription(`${user}, you asked me to remind you about: \`${reminder.Remind}\``)
+                .setColor('#ff0000');
+
+            channel?.send({ embeds: [embed], content: `:alarm_clock: Time's up, ${user}!` }).catch((err) => {
+                console.error(err);
+            });
+
+            await remindSchema.deleteMany({
+                Time: reminder.Time,
+                User: reminder.User,
+                Remind: reminder.Remind
+            });
+
+        })
+    }
+
+}, 1000 * 5);
 
 // RICH PRESENCE FUNCTIONALITY
 

@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const mongoURL = process.env.mongoURL;
+
 module.exports = {
     name: 'ready',
     once: true,
@@ -24,5 +27,20 @@ module.exports = {
                 console.error(error);
             }
         }
+
+        if (!mongoURL) return;
+
+        await mongoose.connect(mongoURL || '', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+
+        if (mongoose.connect) {
+            console.log('I have connected to the database!');
+        }
+        else {
+            console.log('Cannot connect to the database, try again later!');
+        }
+
     },
 };

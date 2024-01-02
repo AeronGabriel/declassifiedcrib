@@ -4,7 +4,7 @@ const { EmbedBuilder, PermissionsBitField, Embed } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("uptime")
-    .setDescription("Tells the bot's uptime."),
+    .setDescription("Tells the bot's uptime. ***(Admins only)***"),
   async execute(interaction, client) {
 
     if(!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: "**/uptime** command use denied! You are not an Administrator of this server!"});
