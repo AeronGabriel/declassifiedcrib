@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName ('bard')
+    .setName ('ai-bard')
     .setDescription ('Ask BardAI a question!')
     .addStringOption (option => option.setName('question').setDescription('Enter your question here:').setRequired(true)),
     async execute (interaction) {
@@ -12,13 +12,14 @@ module.exports = {
 
         const {options} = interaction;
         const question = options.getString('question');
+        const apikey = process.env.bard_key;
 
         const input = {
             method: 'GET',
-            url: 'https://google-bard1.p.rapidapi.com/',
+            url: 'https://google-bard1.p.rapidapi.com/v1/gemini/gemini-pro',
             headers: {
                 text: question,
-                psid: 'eAiALIud4BtRyYdq_hG_Q7vIUR_tHm-iHskS0mB9tM_Xrbnf6zMrkoK_YcjG6ZjuD9tfOQ',
+                api_key: apikey,
                 'X-RapidAPI-Key': '36e91706d2msh950d5cc7eef5018p14d76fjsnaffb9da1b9c3',
                 'X-RapidAPI-Host': 'google-bard1.p.rapidapi.com'
             }
@@ -29,7 +30,11 @@ module.exports = {
 
             const embed = new EmbedBuilder()
             .setColor("Yellow")
-            .setDescription(output.data.response);
+            .setTitle('Google Bard')
+            .setThumbnail(interaction.client.user.displayAvatarURL({ size: 128 }))
+            .setDescription(output.data.response)
+            .setTimestamp()
+            .setFooter({ text: `Powered by GoogleAPIs and RapidAPI` });
 
             await interaction.editReply({ embeds: [embed ]});
         } catch (e) {

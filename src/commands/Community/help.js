@@ -26,7 +26,7 @@ module.exports = {
 
         const embed = {
             color: parseInt("#00ff00".replace("#", ""), 16),
-            title: `Help`,
+            title: `Declassified Crib Help Desk`,
             description: `## All available commands from the bot!`,
             fields: commandList,
             footer: {
